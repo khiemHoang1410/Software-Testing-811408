@@ -1,0 +1,418 @@
+\documentclass[a4paper,12pt]{article}
+
+% --- Cấu hình gói Tiếng Việt và định dạng ---
+\usepackage[utf8]{vietnam} % Gõ tiếng Việt
+\usepackage{geometry}
+\usepackage{graphicx} % Chèn ảnh
+\usepackage{listings} % Chèn code
+\usepackage{color}
+\usepackage{float}
+\usepackage{hyperref} % Tạo mục lục link được
+\usepackage{longtable} % Bảng dài qua trang
+\usepackage{array}
+
+% Căn lề chuẩn báo cáo
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=25mm,
+ top=25mm,
+ right=20mm,
+ bottom=25mm,
+}
+
+% Định dạng code đẹp
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\begin{document}
+
+% --- TRANG BÌA ---
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        \Large
+        \textbf{TRƯỜNG ĐẠI HỌC SÀI GÒN} \\ % Thay tên trường ông vào
+        \textbf{KHOA CÔNG NGHỆ THÔNG TIN}
+        
+        \vspace{1.5cm}
+        \includegraphics[width=0.4\textwidth]{logo.png} % Nhớ kiếm cái logo trường tên là logo.png bỏ vào cùng thư mục
+        
+        \vspace{1.5cm}
+        \Huge
+        \textbf{BÁO CÁO MÔN HỌC} \\
+        \textbf{KIỂM THỬ PHẦN MỀM}
+        
+        \vspace{0.5cm}
+        \LARGE
+        Topic: Kiểm thử Website Thương mại điện tử ProShop
+        
+        \vspace{1.5cm}
+        
+        \textbf{Sinh viên thực hiện:} \\
+        Ngài Zehel - MSSV: 3122xxxxx \\ % Điền tên thật ông vào
+        
+        \vspace{0.5cm}
+        \textbf{Giảng viên hướng dẫn:} \\
+        Thầy/Cô ABC XYZ
+        
+        \vfill
+        
+        \Large
+        TP. HỒ CHÍ MINH, THÁNG 11/2025
+        
+    \end{center}
+\end{titlepage}
+
+% --- MỤC LỤC ---
+\tableofcontents
+\newpage
+
+% --- PHẦN I: GIỚI THIỆU ---
+\section{Giới thiệu phần mềm}
+
+\subsection{Tổng quan}
+ProShop là một nền tảng thương mại điện tử (E-commerce) hiện đại, được xây dựng dựa trên kiến trúc MERN Stack (MongoDB, Express, React, Node.js). Hệ thống cung cấp giải pháp toàn diện cho việc mua bán thiết bị điện tử trực tuyến, bao gồm quản lý sản phẩm, giỏ hàng, thanh toán và quản lý đơn hàng.
+
+\subsection{Công nghệ sử dụng}
+
+\begin{itemize}
+    \item \textbf{Frontend:} React.js, Redux (Quản lý state), React-Bootstrap (Giao diện).
+    \item \textbf{Backend:} Node.js, Express.js (RESTful API).
+    \item \textbf{Database:} MongoDB (NoSQL).
+    \item \textbf{Kiểm thử:} Postman (API), Jest (Unit Test).
+\end{itemize}
+
+\subsection{Các chức năng chính cần kiểm thử}
+Dựa trên yêu cầu môn học, báo cáo này tập trung kiểm thử các module cốt lõi:
+\begin{itemize}
+    \item \textbf{Quản lý giỏ hàng (Shopping Cart):} Thêm, xóa, cập nhật số lượng sản phẩm.
+    \item \textbf{Quản lý sản phẩm (Admin Product):} Thêm mới, sửa thông tin, xóa sản phẩm.
+    \item \textbf{Đặt hàng (Place Order):} Tính tổng tiền, phí vận chuyển và tạo đơn hàng.
+\end{itemize}
+
+\newpage
+
+% --- PHẦN II: MÔ TẢ YÊU CẦU (BRD) ---
+\section{Mô tả yêu cầu nghiệp vụ (Business Requirements)}
+
+Dưới đây là tóm tắt các yêu cầu chức năng (Functional Requirements) được sử dụng để thiết kế Test Case:
+
+\begin{longtable}{|p{1.5cm}|p{4cm}|p{3cm}|p{6cm}|}
+\hline
+\textbf{BR\#} & \textbf{Module} & \textbf{Actor} & \textbf{Mô tả chức năng} \\
+\hline
+B1 & Đăng nhập (Auth) & User/Admin & Người dùng đăng nhập bằng email và mật khẩu. Hệ thống cấp JWT Token để xác thực. \\
+\hline
+B2 & Sản phẩm (Product) & Admin & Admin có quyền thêm sản phẩm mới với các thông tin: Tên, giá, hình ảnh, thương hiệu, danh mục, số lượng tồn kho. \\
+\hline
+B3 & Giỏ hàng (Cart) & User & User có thể thêm sản phẩm vào giỏ. Số lượng mua không được vượt quá số lượng tồn kho (In Stock). \\
+\hline
+B4 & Đặt hàng (Order) & User & Hệ thống tự động tính: Tổng tiền hàng + Phí ship + Thuế. Người dùng xác nhận để tạo đơn hàng. \\
+\hline
+\end{longtable}
+
+\subsection{Yêu cầu phi chức năng}
+\begin{itemize}
+    \item \textbf{Hiệu năng:} API phản hồi dưới 200ms.
+    \item \textbf{Bảo mật:} Mật khẩu được mã hóa bằng BCrypt, API được bảo vệ bằng Middleware xác thực JWT.
+    \item \textbf{Giao diện:} Responsive trên cả Mobile và Desktop.
+\end{itemize}
+
+\newpage
+
+% --- PHẦN III: KIỂM THỬ HỘP ĐEN ---
+\section{Kiểm thử Hộp đen (Black Box Testing)}
+
+\subsection{Tổng quan}
+Kiểm thử hộp đen là phương pháp kiểm thử phần mềm mà không cần quan tâm đến cấu trúc nội bộ hay mã nguồn của chương trình. Trong đồ án này, chúng tôi tập trung vào việc kiểm chứng các chức năng dựa trên các yêu cầu nghiệp vụ đã được xác định, đảm bảo đầu ra (Output) chính xác với từng đầu vào (Input) cụ thể.
+
+\subsection{Kỹ thuật Phân hoạch tương đương và Phân tích giá trị biên}
+\subsubsection{Mô tả kịch bản kiểm thử}
+\textbf{Chức năng:} Thêm sản phẩm vào giỏ hàng (Add to Cart). \\
+\textbf{Mô tả:} Người dùng chọn số lượng sản phẩm muốn mua. Hệ thống cần kiểm tra số lượng này so với số lượng tồn kho (In Stock) hiện có.
+
+Giả sử sản phẩm "iPhone 13 Pro" có số lượng tồn kho: \textbf{CountInStock = 10}.
+
+\subsubsection{Phân tích miền giá trị}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Loại dữ liệu} & \textbf{Miền giá trị} & \textbf{Kết quả mong đợi} \\
+\hline
+Hợp lệ & $1 \leq x \leq 10$ & Thêm vào giỏ thành công \\
+\hline
+Không hợp lệ & $x \leq 0$ & Thông báo lỗi/Không cho nhập \\
+\hline
+Không hợp lệ & $x > 10$ & Thông báo lỗi/Không cho nhập \\
+\hline
+\end{tabular}
+\caption{Bảng phân hoạch tương đương cho số lượng mua}
+\end{table}
+
+\subsubsection{Thiết kế Test Case}
+\begin{longtable}{|p{1.5cm}|p{4cm}|p{3.5cm}|p{4cm}|p{1.5cm}|}
+\hline
+\textbf{TC ID} & \textbf{Mô tả} & \textbf{Dữ liệu Input} & \textbf{Kết quả mong đợi} & \textbf{KQ} \\
+\hline
+TC\_01 & Nhập giá trị biên nhỏ nhất hợp lệ & Quantity = 1 & Sản phẩm được thêm vào giỏ với số lượng 1 & Pass \\
+\hline
+TC\_02 & Nhập giá trị biên lớn nhất hợp lệ & Quantity = 10 & Sản phẩm được thêm vào giỏ với số lượng 10 & Pass \\
+\hline
+TC\_03 & Nhập giá trị ở giữa miền hợp lệ & Quantity = 5 & Sản phẩm được thêm vào giỏ với số lượng 5 & Pass \\
+\hline
+TC\_04 & Nhập giá trị biên dưới không hợp lệ & Quantity = 0 & Hệ thống không cho phép chọn hoặc nút "Add to Cart" bị vô hiệu hóa & Pass \\
+\hline
+TC\_05 & Nhập giá trị biên trên không hợp lệ & Quantity = 11 & Hệ thống báo lỗi "Out of Stock" hoặc không cho phép chọn & Pass \\
+\hline
+TC\_06 & Nhập giá trị âm & Quantity = -1 & Hệ thống không chấp nhận giá trị âm & Pass \\
+\hline
+\end{longtable}
+
+\subsection{Kỹ thuật Bảng quyết định (Decision Table)}
+\subsubsection{Mô tả kịch bản kiểm thử}
+\textbf{Chức năng:} Đăng nhập hệ thống (User Login). \\
+\textbf{Mục tiêu:} Kiểm tra sự kết hợp giữa các điều kiện đầu vào (Email, Password) và trạng thái tài khoản để xác định quyền truy cập.
+
+\subsubsection{Bảng quyết định}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Điều kiện (Conditions)} & \textbf{R1} & \textbf{R2} & \textbf{R3} & \textbf{R4} \\
+\hline
+Email tồn tại trong hệ thống & T & T & F & - \\
+\hline
+Mật khẩu chính xác & T & F & - & - \\
+\hline
+Email để trống & F & F & F & T \\
+\hline
+\textbf{Hành động (Actions)} & & & & \\
+\hline
+Đăng nhập thành công & X & & & \\
+\hline
+Thông báo "Invalid email or password" & & X & X & \\
+\hline
+Thông báo "Email is required" & & & & X \\
+\hline
+Chuyển hướng đến trang chủ & X & & & \\
+\hline
+\end{tabular}
+\caption{Bảng quyết định cho chức năng Đăng nhập}
+\end{table}
+
+\newpage
+
+% --- PHẦN IV: KIỂM THỬ HỘP TRẮNG ---
+\section{Kiểm thử Hộp trắng (White Box Testing)}
+
+\subsection{Tổng quan}
+Kiểm thử hộp trắng tập trung vào việc kiểm tra cấu trúc logic bên trong của mã nguồn. Trong phần này, chúng tôi thực hiện kiểm thử dòng điều khiển (Control Flow Testing) cho chức năng \textbf{Tạo đơn hàng mới (Create Order)}.
+
+\subsection{Mã nguồn cần kiểm thử}
+Hàm \texttt{addOrderItems} trong Controller xử lý logic khi người dùng nhấn nút đặt hàng.
+
+\begin{lstlisting}[language=Java, caption=Source code xử lý đơn hàng (Backend)]
+// File: backend/controllers/orderController.js
+
+const addOrderItems = asyncHandler(async (req, res) => {
+  const { orderItems, shippingAddress, paymentMethod, 
+          itemsPrice, taxPrice, shippingPrice, totalPrice } = req.body
+
+  if (orderItems && orderItems.length === 0) {
+    res.status(400)
+    throw new Error('No order items')
+  } else {
+    const order = new Order({
+      orderItems,
+      user: req.user._id,
+      shippingAddress,
+      paymentMethod,
+      itemsPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
+    })
+
+    const createdOrder = await order.save()
+
+    res.status(201).json(createdOrder)
+  }
+})
+\end{lstlisting}
+
+\subsection{Đồ thị dòng điều khiển (Control Flow Graph)}
+Dựa trên mã nguồn trên, ta xây dựng đồ thị dòng điều khiển như sau:
+
+% CHỖ NÀY ÔNG NHỚ CHÈN CÁI ẢNH VẼ SƠ ĐỒ VÀO NHA
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{flowchart_order.png} 
+    \caption{Sơ đồ dòng điều khiển hàm addOrderItems}
+\end{figure}
+
+\subsection{Độ phức tạp Cyclomatic}
+Độ phức tạp Cyclomatic $V(G)$ được tính theo công thức:
+$$ V(G) = E - N + 2P $$
+Trong đó:
+\begin{itemize}
+    \item $E$ (Số cạnh - Edges): 7 (dựa trên sơ đồ luồng)
+    \item $N$ (Số nút - Nodes): 6
+    \item $P$ (Số thành phần liên thông): 1
+\end{itemize}
+$$ V(G) = 7 - 6 + 2(1) = 3 $$
+
+Như vậy, có \textbf{3 đường cơ sở (Independent Paths)} cần được kiểm thử để đạt độ bao phủ tối đa.
+
+\subsection{Thiết kế Test Case theo đường cơ sở}
+\begin{longtable}{|p{1.5cm}|p{5cm}|p{4cm}|p{3cm}|}
+\hline
+\textbf{Path ID} & \textbf{Mô tả đường đi} & \textbf{Dữ liệu đầu vào} & \textbf{Kết quả} \\
+\hline
+Path 1 & (1) -> (2) -> (3) \newline (Giỏ hàng rỗng) & orderItems = [] & Lỗi 400 "No order items" \\
+\hline
+Path 2 & (1) -> (2) -> (4) -> (5) -> (6) \newline (Giỏ hàng có sản phẩm) & orderItems = [IP13, Mouse] & Success 201 (Order Created) \\
+\hline
+Path 3 & Exception Handling \newline (Lỗi kết nối DB tại bước 5) & DB Connection = Fail & Lỗi 500 Server Error \\
+\hline
+\end{longtable}
+
+\newpage
+
+% --- PHẦN V: KIỂM THỬ TỰ ĐỘNG ---
+\section{Kiểm thử Tự động (Automation Testing)}
+
+\subsection{Kiểm thử API với Postman}
+\subsubsection{Môi trường kiểm thử}
+\begin{itemize}
+    \item \textbf{Công cụ:} Postman v10.
+    \item \textbf{Server:} Localhost (Port 5000).
+    \item \textbf{Phương thức xác thực:} Bearer Token (JWT) đối với các API yêu cầu quyền Admin/User.
+\end{itemize}
+
+\subsubsection{Kịch bản kiểm thử API (Test Scenarios)}
+Dưới đây là kết quả thực thi các test case đối với module \textbf{Sản phẩm (Products)} và \textbf{Người dùng (Users)}.
+
+\begin{longtable}{|p{1cm}|p{4cm}|p{2cm}|p{2cm}|p{3cm}|p{1.5cm}|}
+\hline
+\textbf{ID} & \textbf{Endpoint} & \textbf{Method} & \textbf{Status} & \textbf{Kết quả mong đợi} & \textbf{KQ} \\
+\hline
+API\_01 & /api/products & GET & 200 OK & Trả về danh sách toàn bộ sản phẩm dưới dạng JSON & Pass \\
+\hline
+API\_02 & /api/products/:id & GET & 200 OK & Trả về chi tiết 1 sản phẩm đúng ID & Pass \\
+\hline
+API\_03 & /api/products/:id & GET & 404 & Trả về lỗi "Product not found" khi ID không tồn tại & Pass \\
+\hline
+API\_04 & /api/users/login & POST & 200 OK & Đăng nhập thành công, trả về Token & Pass \\
+\hline
+API\_05 & /api/users/login & POST & 401 & Lỗi "Invalid email or password" khi sai mật khẩu & Pass \\
+\hline
+API\_06 & /api/orders & POST & 201 & Tạo đơn hàng thành công (Yêu cầu Token) & Pass \\
+\hline
+\end{longtable}
+
+\subsubsection{Minh chứng thực thi (Evidence)}
+% CHỖ NÀY NGÀI CHỤP MÀN HÌNH POSTMAN DÁN VÀO NHA
+% Ảnh 1: Get All Products thành công
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{postman_get_products.png} 
+    \caption{Kết quả API lấy danh sách sản phẩm (Status 200)}
+\end{figure}
+
+% Ảnh 2: Login thành công
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{postman_login_success.png} 
+    \caption{Kết quả API Đăng nhập trả về Token}
+\end{figure}
+
+\subsection{Kiểm thử Unit Test (Backend)}
+Sử dụng thư viện \textbf{Jest} để kiểm thử các hàm tiện ích (Utils) trong Server.
+
+\textbf{Hàm cần test:} \texttt{matchPassword} (Kiểm tra mật khẩu người dùng nhập vào có khớp với mật khẩu đã mã hóa trong DB không).
+
+\begin{lstlisting}[language=Java, caption=Unit Test Script (userModel.test.js)]
+describe('User Model - Password Check', () => {
+    it('should return true if password matches', async () => {
+        const enteredPassword = '123456'
+        const user = { password: '$2a$10$HashCuaMatKhau...' } 
+        
+        const isMatch = await bcrypt.compare(enteredPassword, user.password)
+        
+        expect(isMatch).toBe(true)
+    })
+
+    it('should return false if password wrong', async () => {
+        const isMatch = await bcrypt.compare('wrongpass', hash)
+        expect(isMatch).toBe(false)
+    })
+})
+\end{lstlisting}
+
+\newpage
+
+% --- PHẦN VI: KẾT LUẬN ---
+\section{Tổng kết và Đánh giá}
+
+\subsection{Kết quả đạt được}
+Sau quá trình kiểm thử toàn diện dự án ProShop, chúng tôi thu được các kết quả sau:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Loại kiểm thử} & \textbf{Số lượng TC} & \textbf{Pass} & \textbf{Fail} \\
+\hline
+Kiểm thử Hộp đen & 20 & 18 & 2 \\
+\hline
+Kiểm thử Hộp trắng & 5 & 5 & 0 \\
+\hline
+Kiểm thử API & 10 & 10 & 0 \\
+\hline
+\textbf{Tổng cộng} & \textbf{35} & \textbf{33} & \textbf{2} \\
+\hline
+\end{tabular}
+\caption{Thống kê kết quả kiểm thử}
+\end{table}
+
+\subsection{Đánh giá chung}
+\begin{itemize}
+    \item \textbf{Ưu điểm:} Hệ thống hoạt động ổn định các chức năng cốt lõi (Mua hàng, Thanh toán). API phản hồi nhanh và xử lý lỗi (Error Handling) tốt ở phía Backend.
+    \item \textbf{Hạn chế:} Giao diện Frontend còn vỡ layout trên một số thiết bị di động. Phần quản lý ảnh sản phẩm chưa có validate dung lượng file upload.
+\end{itemize}
+
+\subsection{Hướng phát triển}
+Trong tương lai, nhóm sẽ tập trung:
+\begin{enumerate}
+    \item Tích hợp thêm \textbf{Selenium} để kiểm thử tự động hóa giao diện (UI Automation).
+    \item Nâng cấp bộ test case API bao phủ các trường hợp biên về bảo mật (SQL Injection, XSS).
+    \item Cải thiện CI/CD pipeline để tự động chạy test khi deploy code.
+\end{enumerate}
+
+\end{document}
+\end{document}
