@@ -19,6 +19,16 @@
 
 ---
 
+## 📂 Tài liệu Báo cáo (Documentation)
+
+Toàn bộ quá trình phân tích yêu cầu, thiết kế Test Case, Test Script và kết quả thực nghiệm được trình bày chi tiết trong báo cáo đồ án.
+
+* 📄 **Xem Báo cáo (PDF):** [Click để tải xuống](https://github.com/khiemHoang1410/Software-Testing-BookCart/raw/main/BAO_CAO_TESTING.pdf)
+* 🔗 **Xem trực tuyến (Overleaf):** [>> Link Project Overleaf <<](https://www.overleaf.com/read/jpdndpqfzpxb#bdc356)
+
+
+---
+
 ## 📖 Giới thiệu Dự án (Project Overview)
 
 **ProShop** là một nền tảng thương mại điện tử (eCommerce) đầy đủ tính năng được xây dựng dựa trên kiến trúc Monolithic hiện đại với **MERN Stack** (MongoDB, Express, React, Node.js).
@@ -59,14 +69,6 @@ Báo cáo tập trung vào 4 cấp độ kiểm thử chính:
 
 ---
 
-## 📂 Tài liệu Báo cáo (Documentation)
-
-Toàn bộ quá trình phân tích yêu cầu, thiết kế Test Case, Test Script và kết quả thực nghiệm được trình bày chi tiết trong báo cáo đồ án.
-
-* 📄 **Xem Báo cáo (PDF):** [Click để tải xuống](https://github.com/khiemHoang1410/Software-Testing-BookCart/raw/main/BAO_CAO_TESTING.pdf)
-* 🔗 **Xem trực tuyến (Overleaf):** [>> Link Project Overleaf <<](https://www.overleaf.com/read/jpdndpqfzpxb#bdc356)
-
----
 
 ## 🚀 Hướng dẫn Cài đặt & Chạy Project (Local)
 
